@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PinToRope : MonoBehaviour
 {
-    public GameObject character;
-    public GameObject lastPartOfRope;
+    [SerializeField] private GameObject character;
+    [SerializeField] private GameObject lastPartOfRope;
 
     private void OnTriggerEnter2D(Collider2D other){
         Debug.Log("Connected!");

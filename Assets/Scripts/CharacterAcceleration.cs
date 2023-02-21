@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class BustingCharacter : MonoBehaviour
+public class CharacterAcceleration : MonoBehaviour
 {
     private Rigidbody2D charactersRB;
-    public float impulse = 10f;
+    [SerializeField] private float impulse = 10f;
 
     void Start()
     {
