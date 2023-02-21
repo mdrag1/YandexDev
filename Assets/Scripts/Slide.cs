@@ -22,6 +22,9 @@ public class Slide : MonoBehaviour
     private const float MinMoveDistance = 0.001f;
     private const float ShellRadius = 0.01f;
 
+    [SerializeField] private GameObject _character;
+    private float _lastYPossition = 999f;
+
     void OnEnable()
     {
         _rb2d = GetComponent<Rigidbody2D>();
@@ -39,6 +42,11 @@ public class Slide : MonoBehaviour
         Vector2 alongSurface = Vector2.Perpendicular(_groundNormal);
 
         _targetVelocity = alongSurface * _speed;
+
+        if(_lastYPossition < _character.transform.position.y){
+            _speed *= -1;
+        }
+        _lastYPossition = _character.transform.position.y;
     }
 
     void FixedUpdate()
