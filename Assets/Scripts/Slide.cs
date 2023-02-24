@@ -25,23 +25,27 @@ public class Slide : MonoBehaviour
     [SerializeField] private GameObject _character;
     private float _lastYPossition = 999f;
 
-    void OnEnable()
+    private void OnEnable()
     {
         _rb2d = GetComponent<Rigidbody2D>();
     }
 
-    void Start()
+    private void Start()
     {
         _contactFilter.useTriggers = false;
         _contactFilter.SetLayerMask(_layerMask);
         _contactFilter.useLayerMask = true;
     }
 
-    void Update()
+    private void Update()
     {
         Vector2 alongSurface = Vector2.Perpendicular(_groundNormal);
 
         _targetVelocity = alongSurface * _speed;
+
+        if(Input.GetKeyDown(KeyCode.Space) & _grounded){
+            Jump();
+        }
 
         if(_lastYPossition < _character.transform.position.y){
             _speed *= -1;
@@ -49,7 +53,7 @@ public class Slide : MonoBehaviour
         _lastYPossition = _character.transform.position.y;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         _velocity += _gravityModifier * Physics2D.gravity * Time.deltaTime;
         _velocity.x = _targetVelocity.x;
@@ -67,7 +71,7 @@ public class Slide : MonoBehaviour
         Movement(move, true);
     }
 
-    void Movement(Vector2 move, bool yMovement)
+    private void Movement(Vector2 move, bool yMovement)
     {
         float distance = move.magnitude;
 
@@ -107,5 +111,10 @@ public class Slide : MonoBehaviour
         }
 
         _rb2d.position = _rb2d.position + move.normalized * distance;
+    }
+
+    private void Jump(){
+        Debug.Log("Jump!");
+        _velocity.y += 5f;
     }
 }
