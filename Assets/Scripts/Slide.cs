@@ -6,26 +6,26 @@ public class Slide : MonoBehaviour
 {
     [SerializeField] private float _minGroundNormalY = .65f;
     [SerializeField] private float _gravityModifier = 1f;
-    [SerializeField] private Vector2 _velocity;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private float _speed;
+    [SerializeField] private GameObject _character;
 
+    public Vector2 _velocity;
     private Rigidbody2D _rb2d;
 
     private Vector2 _groundNormal;
     private Vector2 _targetVelocity;
-    private bool _grounded;
     private ContactFilter2D _contactFilter;
     private RaycastHit2D[] _hitBuffer = new RaycastHit2D[16];
     private List<RaycastHit2D> _hitBufferList = new List<RaycastHit2D>(16);
 
+    public bool _grounded;
     private const float MinMoveDistance = 0.001f;
     private const float ShellRadius = 0.01f;
 
-    [SerializeField] private GameObject _character;
     private float _lastYPossition = 999f;
 
-    private void OnEnable()
+    private void Awake()
     {
         _rb2d = GetComponent<Rigidbody2D>();
     }
@@ -42,10 +42,6 @@ public class Slide : MonoBehaviour
         Vector2 alongSurface = Vector2.Perpendicular(_groundNormal);
 
         _targetVelocity = alongSurface * _speed;
-
-        if(Input.GetKeyDown(KeyCode.Space) & _grounded){
-            Jump();
-        }
 
         if(_lastYPossition < _character.transform.position.y){
             _speed *= -1;
@@ -111,10 +107,5 @@ public class Slide : MonoBehaviour
         }
 
         _rb2d.position = _rb2d.position + move.normalized * distance;
-    }
-
-    private void Jump(){
-        Debug.Log("Jump!");
-        _velocity.y += 5f;
     }
 }
